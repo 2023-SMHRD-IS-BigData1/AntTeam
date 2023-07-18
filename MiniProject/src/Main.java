@@ -26,10 +26,9 @@ public class Main {
 				String id = sc.next();
 				System.out.print("비밀번호를 입력해주세요 : ");
 				String pw = sc.next();
-
-				// id, pw 받아와서 일치하면 nick 출력
 				String nick = null;
-				System.out.println(nick + "님 환영합니다.");
+				// id, pw 받아와서 일치하면 nick 출력
+				new InvestorController().select(new InfoDTO(id, pw, null));
 
 				while (true) {
 					System.out.print("[1]주식거래 [2]미니게임 [3]종료 >> ");

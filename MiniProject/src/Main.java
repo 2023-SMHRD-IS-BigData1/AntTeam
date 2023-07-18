@@ -1,3 +1,4 @@
+import java.sql.Connection;
 import java.util.Scanner;
 
 
@@ -5,7 +6,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+		InfoDTO infodto = null;
+		InfoDAO infodao = new InfoDAO();
+		StockDTO stockdto = null;
+		StockDAO stockdao = new StockDAO();
 		
 		while(true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
@@ -18,7 +22,8 @@ public class Main {
 				String pw = sc.next();
 				System.out.print("닉네임을 입력해주세요 : ");
 				String nick = sc.next();
-				new InvestorController().insert(new InfoDTO(id, pw, nick));
+				infodto = new InfoDTO(id, pw, nick, 10000);
+				infodao.insert(infodto);
 
 			} else if (menu1 == 2) {
 				// 로그인 - 메인
@@ -28,7 +33,8 @@ public class Main {
 				String pw = sc.next();
 				String nick = null;
 				// id, pw 받아와서 일치하면 nick 출력
-				new InvestorController().select(new InfoDTO(id, pw, null));
+				infodto = new InfoDTO(id, pw, null);
+				infodao.select(infodto);
 
 				while (true) {
 					System.out.print("[1]주식거래 [2]미니게임 [3]종료 >> ");

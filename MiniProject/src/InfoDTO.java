@@ -2,10 +2,17 @@
 
 public class InfoDTO {
 	
-	protected String id;
-	protected String pw;
-	protected String nick;
+	private String id;
+	private String pw;
+	private String nick;
+	private int gold;
 	
+	public InfoDTO(String id, String pw, String nick, int gold) {
+		this.id = id;
+		this.pw = pw;
+		this.nick = nick;
+		this.gold = gold;
+	}
 	public InfoDTO(String id, String pw, String nick) {
 		this.id = id;
 		this.pw = pw;
@@ -24,7 +31,9 @@ public class InfoDTO {
 		return nick;
 	}
 	
-	
+	public int getGold() {
+		return gold;
+	}
 	
 	
 	

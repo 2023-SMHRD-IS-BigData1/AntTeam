@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class infoDAO {
+public class InfoDAO {
 
 	Connection conn = null;
 	PreparedStatement psmt = null;
@@ -49,26 +49,33 @@ public class infoDAO {
 		}
 	}
 
-	public int insert(InfoDTO dto) {
+	public void insert(InfoDTO dto) {
 
 		try {
 			getCon();
-			String sql = "insert into Investor_info values(?,?,?)";
+			String sql = "insert into Investor_info values(?,?,?,?)";
 			psmt = conn.prepareStatement(sql);
 			// ?
 			// dto : title,name,price,bookNum
 			psmt.setString(1, dto.getId());
 			psmt.setString(2, dto.getPw());
 			psmt.setString(3, dto.getNick());
+			psmt.setInt(4, dto.getGold());
 
 			cnt = psmt.executeUpdate();
+			
+			if (cnt > 0) {
+				System.out.println("회원등록이 완료되었습니다.!");
+			} else {
+				System.out.println("회원등록에 실패했습니다. 다시 시도하세요!.");
+			}
+			
 		} catch (SQLException e) {
 			System.out.println("SQL 오류");
 			e.printStackTrace();
 		} finally {
 			getClose();
 		}
-		return cnt;
 	}
 
 	public ArrayList<InfoDTO> select(InfoDTO dto) {
@@ -86,6 +93,7 @@ public class infoDAO {
 		          String nick = rs.getString(3);
 		          InfoDTO result = new InfoDTO(id, pw , nick);
 		          list.add(result);
+			      System.out.println(list.get(0).getNick()+"님 환영합니다.");
 		       }
 		    } catch (SQLException e) {
 		       e.printStackTrace();

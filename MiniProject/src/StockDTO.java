@@ -1,82 +1,33 @@
 
+public class StockDTO {
 
-public class StockDTO extends InfoDTO {
-	
-	
-	private int gold;
-	private int techNavi;
-	private int energyWave;
-	private int globalMobill;
-	private int healthWellth;
-	private int leaderCoper;
-	private int smartGrow;
-	private int bioTix;
-	private int airFlight;
-	private int elitePerformance;
-	private int greenFuture;
-	
-	public StockDTO(String id, String pw, String nick, int gold, int techNavi, int energyWave, int globalMobill,
-			int healthWellth, int leaderCoper, int smartGrow, int bioTix, int airFlight, int elitePerformance,
-			int greenFuture) {
-		super(id, pw, nick);
-		this.gold = gold;
-		this.techNavi = techNavi;
-		this.energyWave = energyWave;
-		this.globalMobill = globalMobill;
-		this.healthWellth = healthWellth;
-		this.leaderCoper = leaderCoper;
-		this.smartGrow = smartGrow;
-		this.bioTix = bioTix;
-		this.airFlight = airFlight;
-		this.elitePerformance = elitePerformance;
-		this.greenFuture = greenFuture;
+	private String stockName;
+	private int beforePrice;
+	private int nowPrice;
+	private int movePrice;
+
+	public StockDTO(String stockName, int beforePrice, int nowPrice, int movePrice) {
+		super();
+		this.stockName = stockName;
+		this.beforePrice = beforePrice;
+		this.nowPrice = nowPrice;
+		this.movePrice = movePrice;
 	}
 
-	public int getGold() {
-		return gold;
+	public String getStockName() {
+		return stockName;
 	}
 
-	public int getTechNavi() {
-		return techNavi;
+	public int getBeforePrice() {
+		return beforePrice;
 	}
 
-	public int getEnergyWave() {
-		return energyWave;
+	public int getNowPrice() {
+		return nowPrice;
 	}
 
-	public int getGlobalMobill() {
-		return globalMobill;
+	public int getMovePrice() {
+		return movePrice;
 	}
-
-	public int getHealthWellth() {
-		return healthWellth;
-	}
-
-	public int getLeaderCoper() {
-		return leaderCoper;
-	}
-
-	public int getSmartGrow() {
-		return smartGrow;
-	}
-
-	public int getBioTix() {
-		return bioTix;
-	}
-
-	public int getAirFlight() {
-		return airFlight;
-	}
-
-	public int getElitePerformance() {
-		return elitePerformance;
-	}
-
-	public int getGreenFuture() {
-		return greenFuture;
-	}
-	
-	
-		
 
 }

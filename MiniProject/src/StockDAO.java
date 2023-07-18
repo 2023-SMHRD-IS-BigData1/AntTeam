@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class DAO {
+public class StockDAO {
 	
 	Connection conn = null;
 	PreparedStatement psmt = null;

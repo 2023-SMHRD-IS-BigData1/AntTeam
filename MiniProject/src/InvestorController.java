@@ -8,7 +8,7 @@ public class InvestorController {
 
 	public void insert(InfoDTO dto) {
 		
-		int cnt = new DAO().insert(dto);
+		int cnt = new StockDAO().insert(dto);
 		if (cnt > 0) {
 			System.out.println("회원등록이 완료되었습니다.!");
 		} else {

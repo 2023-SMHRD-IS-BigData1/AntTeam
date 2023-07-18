@@ -94,6 +94,8 @@ public class Main {
 				// 입력오류 - 메인
 				System.out.println("다시 입력해주세요.");
 			}
+
+			
 			
 		}
 		

@@ -1,4 +1,4 @@
-import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -10,6 +10,11 @@ public class Main {
 		InfoDAO infodao = new InfoDAO();
 		StockDTO stockdto = null;
 		StockDAO stockdao = new StockDAO();
+		UserStockDTO userstockdto = null;
+		UserStockDAO userstockdao = new UserStockDAO();
+//		ArrayList<StockDTO> stock = new ArrayList<StockDTO>();
+		String userid = null;
+		
 		
 		while(true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
@@ -35,8 +40,11 @@ public class Main {
 				// id, pw 받아와서 일치하면 nick 출력
 				infodto = new InfoDTO(id, pw, null);
 				infodao.select(infodto);
-
+				// 로그인 성공실패 코드작성
+				
+				
 				while (true) {
+					userid = id;
 					System.out.print("[1]주식거래 [2]미니게임 [3]종료 >> ");
 					int menu2 = sc.nextInt();
 					if (menu2 == 1) {
@@ -44,15 +52,16 @@ public class Main {
 						// 주식거래
 						while(true) {
 						// 내 자산현황 출력
-						System.out.println();
-						
+						userstockdao.select(userid);
 						// 주식 리스트 출력
-						
+						stockdao.select();
 						// 메뉴 출력
 							System.out.print("[1]판매 [2]구매 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
 							if (menu3 == 1) {
+								
 							} else if (menu3 == 2) {
+								
 							} else if (menu3 == 3) {
 								break;
 							} else if (menu3 == 4) {

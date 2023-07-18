@@ -7,7 +7,6 @@ public class StockDTO {
 	private int movePrice;
 
 	public StockDTO(String stockName, int beforePrice, int nowPrice, int movePrice) {
-		super();
 		this.stockName = stockName;
 		this.beforePrice = beforePrice;
 		this.nowPrice = nowPrice;

@@ -1,21 +1,17 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
 
-public class StockDAO {
+public class UserStockDAO {
 
-	
-	Random rd = new Random();
 	Connection conn = null;
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
+	PreparedStatement psmt2 = null;
+	ResultSet rs2 = null;
 	int cnt = 0;
-	int min = 0;
-	int max = 0;
 
 	// getCon : DB연결 권한 확인 메소드
 	public void getCon() {
@@ -50,43 +46,26 @@ public class StockDAO {
 			e.printStackTrace();
 		}
 	}
-	public void update() {
-		getCon();
-		
-		try {
-			// while 문 안에서 배열 수만큼 반복하여 현재 가격을 기준으로
-			// 현재가격을 이전가격에 담아주고 현재가격에 변동값을 준다
-			// 변동가격은 지금가격에서 변동수치를 랜덤으로 잡아준다( 변동범위 설정 생각하기)
-			// 들어간 변동값을 moveprice에 담아주고 변동한 가격을 현재가격에 다시 담아준다
-			
-			String sql = "select nowprice from stock";
-			psmt = conn.prepareStatement(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			getClose();
-		}
-		
-	}
-	
-	
-	public void select() {
+
+	public void select(String id) {
 		getCon();
 		try {
-			String sql = "select * from Stock";
+			String sql = "select * from UserStock where id = ?";
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
-				
-				System.out.printf("%-10s\t%-3d원\t%-3d원\t%-3d원%n",rs.getString("stockname"), rs.getInt("beforeprice"), rs.getInt("nowprice"), rs.getInt("moveprice"));
-			}
-			
+				String stockname = rs.getString("stockname");
+				String sql2 = "select nowprice from Stock where stockname = ?";
+				psmt2 = conn.prepareStatement(sql);
+				rs2 = psmt2.executeQuery();
+				System.out.printf("%-10s\t%-3d원\t%-3d원\t%-3d주\t%-3d원%n",rs.getString("stockname"),rs.getInt("buyprice"),rs2.getInt("nowprice"),rs.getInt("stocknum"),rs.getInt("buyprice") - rs2.getInt("nowprice"));
+				}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			getClose();
 		}
 	}
-
+	
 }

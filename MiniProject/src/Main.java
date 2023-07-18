@@ -95,9 +95,16 @@ public class Main {
 								System.out.println("다시 입력해주세요.");
 							}
 						}
+					} else if (menu2 == 3) {
+						// 종료 - 메인메뉴
+						System.out.println("프로그램을 종료합니다.");
+						System.exit(0);
+					}else {
+						// 입력오류 - 메인메뉴
+						System.out.println("다시 입력해주세요.");
 					}
-				}
 
+				}
 			} else if (menu1 == 3) {
 				// 랭킹 페이지 출력 - 메인
 			} else if (menu1 == 4) {

@@ -18,7 +18,7 @@ public class DAO {
 	// getCon : DB연결 권한 확인 메소드
 	public void getCon() {
 		try {
-			Class.forName("oracle.jdbc.driver.OraclDriver");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
 			
 			String url = "jdbc:oracle:thin:@project-db-campus.smhrd.com:1524:xe";
 			String db_id = "campus_e_0718_1";

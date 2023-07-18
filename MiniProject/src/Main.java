@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -17,6 +18,8 @@ public class Main {
 				String pw = sc.next();
 				System.out.print("닉네임을 입력해주세요 : ");
 				String nick = sc.next();
+				new InvestorController().insert(new InfoDTO(id, pw, nick));
+				
 				
 			}
 			

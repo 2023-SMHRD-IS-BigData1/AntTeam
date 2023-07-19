@@ -125,5 +125,29 @@ public class InfoDAO {
 		return list;
 		
 	}
+	public int getGold(String userid) {
+		getCon();
+		int gold = 0;
+		try {
+			
+			String sql = "select * from investor_info where id=?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, userid);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				gold = rs.getInt(4);
+			}
+			
+//			System.out.println("잘 넘어오나? " + gold);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+		
+		return gold;
+		
+	}
 
 }

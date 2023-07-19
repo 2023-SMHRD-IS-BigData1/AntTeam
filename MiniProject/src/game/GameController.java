@@ -110,7 +110,7 @@ public class GameController {
 		boolean a = rn.nextBoolean();
 		boolean b = rn.nextBoolean();
 		boolean c = rn.nextBoolean();
-		mp3.play(".\\gameBgm\\잭팟2.mp3");
+		mp3.play(".\\music\\잭팟2.mp3");
 		System.out.print("베팅 결과 >>");
 		System.out.println(a + " " + b + " " + c);
 		

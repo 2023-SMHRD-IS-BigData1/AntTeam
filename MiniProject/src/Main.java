@@ -57,6 +57,7 @@ public class Main {
 
 				while (true) {
 					userid = id;
+					int getGold = infodao.getGold(userid);
 					System.out.print("[1]주식거래 [2]미니게임 [3]종료 >> ");
 					int menu2 = sc.nextInt();
 					if (menu2 == 1) {

@@ -18,6 +18,7 @@ public class InfoDTO {
 		this.pw = pw;
 		this.nick = nick;
 	}
+	
 	public InfoDTO(String id, String nick, int gold) {
 		this.id = id;
 		this.nick = nick;
@@ -28,6 +29,12 @@ public class InfoDTO {
 		this.gold = gold;
 	}
 
+	public InfoDTO(String id, String pw) {
+		super();
+		this.id = id;
+		this.pw = pw;
+	}
+	
 	public String getId() {
 		return id;
 	}

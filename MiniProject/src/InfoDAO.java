@@ -11,6 +11,7 @@ public class InfoDAO {
 	Connection conn = null;
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
+	InfoDTO dto = null;
 	int cnt = 0;
 	String data = "";
 	ArrayList<InfoDTO> list = new ArrayList<InfoDTO>();
@@ -78,29 +79,30 @@ public class InfoDAO {
 		}
 	}
 
-	public ArrayList<InfoDTO> select(InfoDTO dto) {
-
+	public InfoDTO select(String id, String pw) {
 		getCon();
+		
 		    try {
-		       String sql = "select * from Investor_INFO where id =? and pw = ?";
+		       String sql = "select * from INVESTOR_INFO where id =? and pw = ?";
 		       psmt = conn.prepareStatement(sql);
-		       psmt.setString(1,dto.getId());
-		       psmt.setString(2,dto.getPw());
+		       psmt.setString(1,id);
+		       psmt.setString(2,pw);
 		       rs = psmt.executeQuery();
-		       while(rs.next()) {
-		          String id = rs.getString(1);
-		          String pw = rs.getString(2);
-		          String nick = rs.getString(3);
-		          InfoDTO result = new InfoDTO(id, pw , nick);
-		          list.add(result);
-			      System.out.println(list.get(0).getNick()+"님 환영합니다.");
+		       
+		       if(rs.next()) {
+		    	   String db_nick = rs.getString(3);
+		    	   System.out.println(db_nick + "님 환영합니다^^");
+		       }else {
+		    	   System.out.println("아이디 또는 비밀번호가 잘못 되었습니다. 다시 로그인 해주세요.");
 		       }
+		       
+		       
 		    } catch (SQLException e) {
 		       e.printStackTrace();
 		    } finally {
 		       getClose();
 		    }
-		    return list;
+		    return dto;
 		 }
 	public ArrayList<InfoDTO> viewRank() {
 		try {

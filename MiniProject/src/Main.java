@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
+import game.GameController;
+import game.Game_QuizDTO;
 import javazoom.jl.player.MP3Player;
 import music.BackGround;
 import music.MusicVO;
@@ -19,6 +22,9 @@ public class Main {
 		String userid = null;
 		String stockname = null;
 		MP3Player bgm = new MP3Player();
+		Random rn = new Random();
+		GameController gcon = new GameController();
+		Game_QuizDTO gamedto = null;
 		ArrayList<MusicVO> music =  new BackGround().Sound();
 		bgm.play(music.get(0).getPath());
 
@@ -44,10 +50,9 @@ public class Main {
 				String id = sc.next();
 				System.out.print("비밀번호를 입력해주세요 : ");
 				String pw = sc.next();
-				String nick = null;
 				// id, pw 받아와서 일치하면 nick 출력
-				infodto = new InfoDTO(id, pw, null);
-				infodao.select(infodto);
+				infodto = new InfoDTO(id, pw);
+				infodao.select(id, pw);
 				// 로그인 성공실패 코드작성
 
 				while (true) {
@@ -127,8 +132,65 @@ public class Main {
 							int menu3 = sc.nextInt();
 							if (menu3 == 1) {
 								// 퀴즈게임 실행 - 미니게임
+								while(true) {
+									int cnt = 0;
+									System.out.println("====퀴즈게임에 참가하셨습니다==== \n"
+											+ "gold가 없는 분들은 퀴즈를 풀어 gold를 벌어보세요! \n "
+											+ "한 문제 맞출 시 10000골드를 얻게됩니다. \n"
+											+ "참가비 없이 자유롭게 참가해보세요.^^");
+									System.out.print("[1] 도전하기 [2] 게임 나가기 >>");
+									int menu = sc.nextInt();
+									if(menu==1) {
+										
+										//게임시작
+										System.out.println("====빈칸에 들어갈 단어를 맞춰보세요!====");
+										gcon.Quiz();
+										String answer = sc.next();
+									}else if(menu==2){
+										//게임 종료
+										System.out.println("게임을 종료합니다.");
+										break;
+									}else {
+										System.out.println("잘못된 입력입니다. 다시 입력해 주세요.");
+									}
+								}
 							} else if (menu3 == 2) {
 								// 룰렛 - 미니게임
+								while(true){
+									System.out.println("====카지노 잭팟에 오신걸 환영합니다==== \n "
+											+ "잭팟을 터트리시면 베팅한 금액의 3배를 돌려드립니다^^ \n "
+											+ "반대로 잭팟을 터트리지 못하면 베팅한 금액을 모두 잃게됩니다.ㅠㅠ \n "
+											+ "도전하시겠습니까?");
+									System.out.print("[1] 도전하기 [2] 게임 나가기 >>");
+									int menu = sc.nextInt();
+									
+									if(menu==1) {
+										// bgm
+												
+										//도전하기
+										System.out.print("보유 gold : ");
+//										System.out.print(     보유 gold 입력       );
+										System.out.print("베팅하실 금액을 입력해주세요 >>");
+										int bettingGold = sc.nextInt();
+//										if(gold<=소유한gold){
+//											소유한gold =-gold;
+//											break;
+//										}else {
+//											System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
+//										}
+										
+										gcon.jackpot();
+//										
+										
+									}else if(menu==2) {
+										//게임종료
+										System.out.println("게임을 종료합니다.");
+										break;
+									}else {
+										System.out.println("잘 못 입력하셨습니다. 다시 입력해 주세요.");
+									}
+								}
+								
 							} else if (menu3 == 3) {
 								// 홀짝 - 미니게임
 							} else if (menu3 == 4) {

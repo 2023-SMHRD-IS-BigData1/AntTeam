@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javazoom.jl.player.MP3Player;
+import music.BackGround;
+import music.MusicVO;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -14,8 +18,13 @@ public class Main {
 		ArrayList<StockDTO> list = new ArrayList<StockDTO>();
 		String userid = null;
 		String stockname = null;
+		MP3Player bgm = new MP3Player();
+		ArrayList<MusicVO> music =  new BackGround().Sound();
+		bgm.play(music.get(0).getPath());
 
 		while (true) {
+			PrintMain.print1();
+			PrintMain.print2();
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
 			// 회원가입 - 메인
@@ -143,6 +152,13 @@ public class Main {
 				}
 			} else if (menu1 == 3) {
 				// 랭킹 페이지 출력 - 메인
+				ArrayList<InfoDTO> rank = new InfoDAO().viewRank();
+				System.out.println("             RANKING          ");
+				System.out.println("         주식왕 : "+rank.get(0).getNick());
+				for(int i = 1; i <10 ;i++) {
+					System.out.printf("%d등   \t%s \t보유금액 : \t%d%n",i+1,
+							rank.get(i).getNick(),rank.get(i).getGold());
+				}
 			} else if (menu1 == 4) {
 				// 프로그램 종료 - 메인
 				System.out.println("프로그램을 종료합니다.");

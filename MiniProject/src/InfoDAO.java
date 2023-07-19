@@ -102,5 +102,26 @@ public class InfoDAO {
 		    }
 		    return list;
 		 }
+	public ArrayList<InfoDTO> viewRank() {
+		try {
+			getCon();
+			String sql ="select name ,gold from investor_info order by gold";
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString(1);
+				int gold = rs.getInt(2);
+				InfoDTO dto = new InfoDTO(name, gold);
+				list.add(dto);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
+		}
+		return list;
+		
+	}
 
 }

@@ -23,6 +23,10 @@ public class InfoDTO {
 		this.nick = nick;
 		this.gold = gold;
 	}
+	public InfoDTO(String nick, int gold) {
+		this.nick = nick;
+		this.gold = gold;
+	}
 
 	public String getId() {
 		return id;

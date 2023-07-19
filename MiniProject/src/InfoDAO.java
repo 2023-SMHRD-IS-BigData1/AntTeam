@@ -79,7 +79,7 @@ public class InfoDAO {
 		}
 	}
 
-	public InfoDTO select(String id, String pw) {
+	public int select(String id, String pw) {
 		getCon();
 		
 		    try {
@@ -87,6 +87,7 @@ public class InfoDAO {
 		       psmt = conn.prepareStatement(sql);
 		       psmt.setString(1,id);
 		       psmt.setString(2,pw);
+		       cnt = psmt.executeUpdate();
 		       rs = psmt.executeQuery();
 		       
 		       if(rs.next()) {
@@ -96,14 +97,14 @@ public class InfoDAO {
 		    	   System.out.println("아이디 또는 비밀번호가 잘못 되었습니다. 다시 로그인 해주세요.");
 		       }
 		       
-		       
 		    } catch (SQLException e) {
 		       e.printStackTrace();
 		    } finally {
 		       getClose();
 		    }
-		    return dto;
+			return cnt;
 		 }
+	
 	public ArrayList<InfoDTO> viewRank() {
 		try {
 			getCon();

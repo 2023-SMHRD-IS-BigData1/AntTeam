@@ -26,11 +26,13 @@ public class Main {
 		GameController gcon = new GameController();
 		Game_QuizDTO gamedto = null;
 		ArrayList<MusicVO> music =  new BackGround().Sound();
-		bgm.play(music.get(0).getPath());
 
 		while (true) {
 			PrintMain.print1();
+			bgm.play(music.get(0).getPath());
+			PrintMain.sleep(2000);
 			PrintMain.print2();
+			bgm.play(music.get(0).getPath());
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
 			// 회원가입 - 메인
@@ -145,8 +147,9 @@ public class Main {
 										
 										//게임시작
 										System.out.println("====빈칸에 들어갈 단어를 맞춰보세요!====");
-										gcon.Quiz();
-										String answer = sc.next();
+										
+										getGold+=gcon.Quiz();
+										System.out.println("보유골드 : " + getGold);
 									}else if(menu==2){
 										//게임 종료
 										System.out.println("게임을 종료합니다.");
@@ -169,20 +172,19 @@ public class Main {
 										// bgm
 												
 										//도전하기
-										System.out.print("보유 gold : ");
+										System.out.println("보유 gold : "+getGold);
 //										System.out.print(     보유 gold 입력       );
 										System.out.print("베팅하실 금액을 입력해주세요 >>");
 										int bettingGold = sc.nextInt();
-//										if(gold<=소유한gold){
-//											소유한gold =-gold;
-//											break;
-//										}else {
-//											System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
-//										}
-										
-										gcon.jackpot();
-//										
-										
+										if(bettingGold<=getGold){
+											getGold = getGold-bettingGold;
+										}else {
+											System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
+										}
+										if(1==gcon.jackpot()) {
+											getGold = getGold-bettingGold;
+											getGold = getGold+bettingGold*4;
+										}
 									}else if(menu==2) {
 										//게임종료
 										System.out.println("게임을 종료합니다.");

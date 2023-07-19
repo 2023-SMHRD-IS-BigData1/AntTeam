@@ -14,6 +14,7 @@ public class PrintMain {
 		System.out.println("□□□□□□■□□■□□□□□□□□□□■□□□□■■■■■■■■□□□■□□□□□□■□■");
 		System.out.println("□□□□□□■□□■□□□□□□□□□□■□□□□■■□□□□□□□□□□□□□□□□■□■");
 		System.out.println("□□□□□□■□□■□□□□□□□□□□■□□□□■■■■■■■■■□□□□□□□□□■□■");
+		System.out.println();
 	}
 	
 	public static void print2() {
@@ -30,6 +31,11 @@ public class PrintMain {
 		System.out.println("□□□□□□□□□□□■□□□□□□□□□□□□□□□■□□□■■■□□□■■■□□□□□□");
 		System.out.println("□□□□□□□□□□□■□□□□□□□□□□□□□□□■□□□□■■■■■■■□□□□□□□");
 	}
+	public static void sleep(int time){
+        try {
+          Thread.sleep(time);
+        } catch (InterruptedException e) { }
+    }
 	
 	
 	

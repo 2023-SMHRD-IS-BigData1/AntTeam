@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -12,15 +11,15 @@ public class Main {
 		StockDAO stockdao = new StockDAO();
 		UserStockDTO userstockdto = null;
 		UserStockDAO userstockdao = new UserStockDAO();
-//		ArrayList<StockDTO> stock = new ArrayList<StockDTO>();
+		ArrayList<StockDTO> list = new ArrayList<StockDTO>();
 		String userid = null;
 		String stockname = null;
-		
-		while(true) {
+
+		while (true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
-			//회원가입 - 메인
-			if(menu1 == 1) {
+			// 회원가입 - 메인
+			if (menu1 == 1) {
 				System.out.print("아이디를 입력해주세요 : ");
 				String id = sc.next();
 				System.out.print("비밀번호를 입력해주세요 : ");
@@ -41,44 +40,61 @@ public class Main {
 				infodto = new InfoDTO(id, pw, null);
 				infodao.select(infodto);
 				// 로그인 성공실패 코드작성
-				
-				
+
 				while (true) {
 					userid = id;
 					System.out.print("[1]주식거래 [2]미니게임 [3]종료 >> ");
 					int menu2 = sc.nextInt();
 					if (menu2 == 1) {
-						
 						// 주식거래
-						while(true) {
+						while (true) {
 							String input_stockname = null;
-						// 내 자산현황 출력
-						userstockdao.select(userid);
-						// 주식 리스트 출력
-						System.out.printf("%-10s\t%7s\t%7s\t%7s%n%n", "주식이름", "이전가격", "현재가격", "변동가격");
-						stockdao.select();
-						// 메뉴 출력
+							// 내 자산현황 출력
+							userstockdao.select(userid);
+							// 주식 리스트 출력
+							System.out.printf("%-10s\t%7s\t%7s\t%7s%n%n", "주식이름", "이전가격", "현재가격", "변동가격");
+							list = stockdao.select();
+//							stockdto = new StockDTO(list);
+//							stockdao.update(stockdto);
+							// 메뉴 출력
 							System.out.printf("%n[1]판매 [2]구매 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
 							if (menu3 == 1) {
 								System.out.print("판매할 주식 이름을 입력하세요 >> ");
 								input_stockname = sc.next();
-								input_stockname = stockname;
-								//보유주식 리스트 , 주식리스트에서 있는지 이중검증
-//								if(input_stockname.equals(stockname) && input_stockname.equals()) {
-//									stockdao.select(stockname);
-//								}else {
-//									// 입력오류 - 주식판매
-//									System.out.println("다시 입력해주세요.");
-//								}
+								stockname = input_stockname;
+								stockdao.select(stockname);
+								// 주식리스트에서 있는지 검증
+								if (input_stockname.equals(stockname)) {
+									// 보유주식리스트에서 있는지 검증
+									if (input_stockname.equals(0)) {
+										stockdao.select(stockname);
+										// UserStockDAO호출해서 거래하기
+
+									} else {
+										System.out.println("보유한 주식이 아닙니다.");
+										break;
+									}
+								} else {
+									// 입력오류 - 주식판매
+									System.out.println("다시 입력해주세요.");
+								}
 							} else if (menu3 == 2) {
 								System.out.print("구매할 주식 이름을 입력하세요 >> ");
 								input_stockname = sc.next();
-								//보유주식 리스트 , 주식리스트에서 있는지 이중검증
-								if(input_stockname.equals(stockname)) {
+								stockname = input_stockname;
+								// 보유주식 리스트 , 주식리스트에서 있는지 이중검증
+								if (input_stockname.equals(stockname)) {
 									stockdao.select(stockname);
-									System.out.println(stockname + "의 현재 가격");
-								}else {
+									System.out.print("구매하실 수량을 입력해주세요 >> ");
+									int stocknum = sc.nextInt();
+									// 소지금이 충분한지 확인
+//									if(gold >= nowprice*stocknum) {
+//										System.out.println("구매에 성공하였습니다.");
+//									}else {
+//										System.out.println("보유금액이 부족합니다.");
+//									}
+								} else {
 									// 입력오류 - 주식판매
 									System.out.println("다시 입력해주세요.");
 								}
@@ -88,13 +104,13 @@ public class Main {
 								// 종료 - 주식거래
 								System.out.println("프로그램을 종료합니다.");
 								System.exit(0);
-							}else {
+							} else {
 								// 입력오류 - 주식거래
 								System.out.println("다시 입력해주세요.");
 							}
-							
+
 						}
-						
+
 					} else if (menu2 == 2) {
 						// Mini Game //
 						while (true) {
@@ -110,7 +126,7 @@ public class Main {
 								// 종료 - 미니게임
 								System.out.println("프로그램을 종료합니다.");
 								System.exit(0);
-							}else {
+							} else {
 								// 입력오류 - 미니게임
 								System.out.println("다시 입력해주세요.");
 							}
@@ -119,7 +135,7 @@ public class Main {
 						// 종료 - 메인메뉴
 						System.out.println("프로그램을 종료합니다.");
 						System.exit(0);
-					}else {
+					} else {
 						// 입력오류 - 메인메뉴
 						System.out.println("다시 입력해주세요.");
 					}
@@ -137,7 +153,7 @@ public class Main {
 			}
 
 		}
-		
+
 	}
 
 }

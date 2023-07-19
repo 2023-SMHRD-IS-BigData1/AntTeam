@@ -15,7 +15,12 @@ public class StockDTO {
 	public StockDTO(String stockName) {
 		this.stockName = stockName;
 	}
-
+	public StockDTO(int beforePrice, int nowPrice, int movePrice) {
+		this.beforePrice = beforePrice;
+		this.nowPrice = nowPrice;
+		this.movePrice = movePrice;
+	}
+	
 	public String getStockName() {
 		return stockName;
 	}

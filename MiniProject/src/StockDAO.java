@@ -4,18 +4,20 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class StockDAO {
 
-	
 	Random rd = new Random();
 	Connection conn = null;
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
 	int cnt = 0;
-	int min = 0;
-	int max = 0;
+	double num = 0;
+	int beforeprice = 0;
+	double nowprice = 0;
+	ArrayList<StockDTO> list = new ArrayList<StockDTO>();
 
 	// getCon : DB연결 권한 확인 메소드
 	public void getCon() {
@@ -50,62 +52,88 @@ public class StockDAO {
 			e.printStackTrace();
 		}
 	}
-	public void update() {
-		getCon();
-		
-		try {
-			// while 문 안에서 배열 수만큼 반복하여 현재 가격을 기준으로
-			// 현재가격을 이전가격에 담아주고 현재가격에 변동값을 준다
-			// 변동가격은 지금가격에서 변동수치를 랜덤으로 잡아준다( 변동범위 설정 생각하기)
-			// 들어간 변동값을 moveprice에 담아주고 변동한 가격을 현재가격에 다시 담아준다
-			
-			String sql = "select nowprice from stock";
-			psmt = conn.prepareStatement(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			getClose();
-		}
-		
-	}
-	
-	
-	public void select() {
+
+//	public void update(StockDTO dto) {
+//		getCon();
+//
+//		try {
+//			// while 문 안에서 배열 수만큼 반복하여 현재 가격을 기준으로
+//			// 현재가격을 이전가격에 담아주고 현재가격에 변동값을 준다
+//			// 변동가격은 지금가격에서 변동수치를 랜덤으로 잡아준다( 변동범위 설정 생각하기)
+//			// 들어간 변동값을 moveprice에 담아주고 변동한 가격을 현재가격에 다시 담아준다
+////			float num2 = rd.nextFloat(0.6f);
+////			(num2 + 0.7f);
+//			String sql = "select * from Stock";
+//			psmt = conn.prepareStatement(sql);
+//			rs = psmt.executeQuery();
+//			System.out.println("\t\t 가격이 변경되었습니다. \t\t");
+//			while (rs.next()) {
+//				String sql2 = "update nowprice from stock where stockname = ? and beforprice = ? and nowprice = ? and moveprice = ?";
+//				psmt = conn.prepareStatement(sql);
+//				num = (int) Math.random() * (1.3 - 0.7 + 1) + 0.7;
+//				beforeprice = dto.getNowPrice();
+//				nowprice = dto.getNowPrice() * num;
+//
+//				psmt.setString(1, dto.getStockName());
+//				psmt.setInt(2, beforeprice);
+//				psmt.setInt(3, (int) nowprice);
+//				psmt.setInt(4, beforeprice - (int) nowprice);
+//
+//				cnt = psmt.executeUpdate();
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			getClose();
+//		}
+//	}
+
+	public ArrayList<StockDTO> select() {
 		getCon();
 		try {
 			String sql = "select * from Stock";
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
+
+				// dto --> ArrayList
+				int beforeprice = rs.getInt("beforeprice");
+				int nowprice = rs.getInt("nowprice");
+				int moveprice = rs.getInt("moveprice");
+				StockDTO result = new StockDTO(beforeprice, nowprice, moveprice);
+				list.add(result);
 				
-				System.out.printf("%-10s\t%7d원\t%7d원\t%+7d원%n",rs.getString("stockname"), rs.getInt("beforeprice"), rs.getInt("nowprice"), rs.getInt("moveprice"));
+				System.out.printf("%-10s\t%7d원\t%7d원\t%+7d원%n", rs.getString("stockname"), rs.getInt("beforeprice"),
+						rs.getInt("nowprice"), rs.getInt("moveprice"));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			getClose();
 		}
+		return list;
 	}
-	
+
 	public void select(String stockname) {
 		getCon();
 		try {
 			String sql = "select * from Stock where stockname = ?";
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, stockname);
 			rs = psmt.executeQuery();
-			
-			while(rs.next()) {
-				if(stockname.equals(rs.getString("stockname"))) {
-//					System.out.print("%-10s\t");
-				}else {
+
+			while (rs.next()) {
+				if (stockname.equals(rs.getString("stockname"))) {
+					System.out.printf("%s의 현재 가격은 %d입니다.%n", rs.getString("stockname"), rs.getInt("nowprice"));
+				} else {
 					break;
 				}
-				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			getClose();
 		}
 	}

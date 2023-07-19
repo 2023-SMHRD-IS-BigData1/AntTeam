@@ -18,6 +18,11 @@ public class InfoDTO {
 		this.pw = pw;
 		this.nick = nick;
 	}
+	public InfoDTO(String id, String nick, int gold) {
+		this.id = id;
+		this.nick = nick;
+		this.gold = gold;
+	}
 
 	public String getId() {
 		return id;

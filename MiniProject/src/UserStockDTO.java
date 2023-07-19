@@ -12,6 +12,10 @@ public class UserStockDTO {
 		this.buyPrice = buyPrice;
 		this.stockNum = stockNum;
 	}
+	
+	public UserStockDTO(String stockName) {
+		this.stockName = stockName;
+	}
 
 
 	public String getId() {

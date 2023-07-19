@@ -14,7 +14,7 @@ public class Main {
 		UserStockDAO userstockdao = new UserStockDAO();
 //		ArrayList<StockDTO> stock = new ArrayList<StockDTO>();
 		String userid = null;
-		
+		String stockname = null;
 		
 		while(true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
@@ -27,7 +27,7 @@ public class Main {
 				String pw = sc.next();
 				System.out.print("닉네임을 입력해주세요 : ");
 				String nick = sc.next();
-				infodto = new InfoDTO(id, pw, nick, 10000);
+				infodto = new InfoDTO(id, pw, nick, 100000);
 				infodao.insert(infodto);
 
 			} else if (menu1 == 2) {
@@ -51,17 +51,37 @@ public class Main {
 						
 						// 주식거래
 						while(true) {
+							String input_stockname = null;
 						// 내 자산현황 출력
 						userstockdao.select(userid);
 						// 주식 리스트 출력
+						System.out.printf("%-10s\t%7s\t%7s\t%7s%n%n", "주식이름", "이전가격", "현재가격", "변동가격");
 						stockdao.select();
 						// 메뉴 출력
-							System.out.print("[1]판매 [2]구매 [3]뒤로가기 [4]종료 >> ");
+							System.out.printf("%n[1]판매 [2]구매 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
 							if (menu3 == 1) {
-								
+								System.out.print("판매할 주식 이름을 입력하세요 >> ");
+								input_stockname = sc.next();
+								input_stockname = stockname;
+								//보유주식 리스트 , 주식리스트에서 있는지 이중검증
+//								if(input_stockname.equals(stockname) && input_stockname.equals()) {
+//									stockdao.select(stockname);
+//								}else {
+//									// 입력오류 - 주식판매
+//									System.out.println("다시 입력해주세요.");
+//								}
 							} else if (menu3 == 2) {
-								
+								System.out.print("구매할 주식 이름을 입력하세요 >> ");
+								input_stockname = sc.next();
+								//보유주식 리스트 , 주식리스트에서 있는지 이중검증
+								if(input_stockname.equals(stockname)) {
+									stockdao.select(stockname);
+									System.out.println(stockname + "의 현재 가격");
+								}else {
+									// 입력오류 - 주식판매
+									System.out.println("다시 입력해주세요.");
+								}
 							} else if (menu3 == 3) {
 								break;
 							} else if (menu3 == 4) {
@@ -116,8 +136,6 @@ public class Main {
 				System.out.println("다시 입력해주세요.");
 			}
 
-			
-			
 		}
 		
 	}

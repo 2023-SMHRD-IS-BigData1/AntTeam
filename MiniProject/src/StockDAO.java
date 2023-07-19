@@ -79,9 +79,30 @@ public class StockDAO {
 			
 			while(rs.next()) {
 				
-				System.out.printf("%-10s\t%-3d원\t%-3d원\t%-3d원%n",rs.getString("stockname"), rs.getInt("beforeprice"), rs.getInt("nowprice"), rs.getInt("moveprice"));
+				System.out.printf("%-10s\t%7d원\t%7d원\t%+7d원%n",rs.getString("stockname"), rs.getInt("beforeprice"), rs.getInt("nowprice"), rs.getInt("moveprice"));
 			}
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
+	}
+	
+	public void select(String stockname) {
+		getCon();
+		try {
+			String sql = "select * from Stock where stockname = ?";
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				if(stockname.equals(rs.getString("stockname"))) {
+//					System.out.print("%-10s\t");
+				}else {
+					break;
+				}
+				}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

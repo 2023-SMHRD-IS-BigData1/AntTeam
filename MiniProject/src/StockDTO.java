@@ -12,6 +12,9 @@ public class StockDTO {
 		this.nowPrice = nowPrice;
 		this.movePrice = movePrice;
 	}
+	public StockDTO(String stockName) {
+		this.stockName = stockName;
+	}
 
 	public String getStockName() {
 		return stockName;

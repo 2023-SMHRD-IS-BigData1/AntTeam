@@ -30,12 +30,12 @@ public class Main {
 		Game_QuizDTO gamedto = null;
 		ArrayList<MusicVO> music =  new BackGround().Sound();
 
+		PrintMain.print1();
+			bgm.play(music.get(0).getPath());
+		PrintMain.sleep(1000);
+		PrintMain.print2();
+			bgm.play(music.get(0).getPath());
 		while (true) {
-			PrintMain.print1();
-			bgm.play(music.get(0).getPath());
-			PrintMain.sleep(2000);
-			PrintMain.print2();
-			bgm.play(music.get(0).getPath());
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
 			// 회원가입 - 메인
@@ -109,9 +109,9 @@ public class Main {
 								if (input_stockname.equals(stockname)) {
 									stockdao.select(stockname);
 									System.out.print("구매하실 수량을 입력해주세요 >> ");
-									int stocknum = sc.nextInt();
+									int insert_stocknum = sc.nextInt();
 									// 소지금이 충분한지 확인
-//									if(getGold >= 선택한 주식의현재가격 *stocknum) {
+//									if(getGold >= 선택한 주식의현재가격 *insert_stocknum) {
 //										System.out.println("구매에 성공하였습니다.");
 //									}else {
 //										System.out.println("보유금액이 부족합니다.");
@@ -136,7 +136,7 @@ public class Main {
 					} else if (menu2 == 2) {
 						// Mini Game //
 						while (true) {
-							System.out.print("[1]퀴즈 [2]룰렛 [3]홀짝 [4]종료 >> ");
+							System.out.print("[1]퀴즈 [2]룰렛 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
 							if (menu3 == 1) {
 								// 퀴즈게임 실행 - 미니게임
@@ -196,7 +196,7 @@ public class Main {
 								}
 								
 							} else if (menu3 == 3) {
-								// 홀짝 - 미니게임
+								break;
 							} else if (menu3 == 4) {
 								// 종료 - 미니게임
 								System.out.println("프로그램을 종료합니다.");

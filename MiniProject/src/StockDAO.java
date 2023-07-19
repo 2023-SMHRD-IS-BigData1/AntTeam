@@ -16,7 +16,7 @@ public class StockDAO {
 	int cnt = 0;
 	double num = 0;
 	int beforeprice = 0;
-	double nowprice = 0;
+	int nowprice = 0;
 	ArrayList<StockDTO> list = new ArrayList<StockDTO>();
 
 	// getCon : DB연결 권한 확인 메소드
@@ -53,7 +53,7 @@ public class StockDAO {
 		}
 	}
 
-	public ArrayList<StockDTO> update(ArrayList<StockDTO> Ulist) {
+	public ArrayList<StockDTO> update(ArrayList<StockDTO> list) {
 		getCon();
 		int cnt = 0;
 		try {
@@ -61,19 +61,20 @@ public class StockDAO {
 			// 현재가격을 이전가격에 담아주고 현재가격에 변동값을 준다
 			// 변동가격은 지금가격에서 변동수치를 랜덤으로 잡아준다( 변동범위 설정 생각하기)
 			// 들어간 변동값을 moveprice에 담아주고 변동한 가격을 현재가격에 다시 담아준다
-			String sql2 = "update stock set beforeprice=?, nowprice = ?, moveprice = ? where stockname =?";
+			for (int i = 0; i < list.size(); i++) {
+				String sql2 = "update stock set beforeprice=?, nowprice = ?, moveprice = ? where stockname =?";
 				psmt = conn.prepareStatement(sql2);
-				num = (int) Math.random() * (1.3 - 0.7 + 1) + 0.7;
-				
-				for(int i = 0; i <list.size(); i++) {
-					beforeprice = list.get(i).getNowPrice();
-					nowprice = (int)(list.get(i).getNowPrice()*num);
+				num = Math.round((Math.random() * (1.3 - 0.5 + 0.3) + 0.5) * 100) / 100.0;
+				System.out.println(num);
+				beforeprice = list.get(i).getNowPrice();
+				nowprice = (int) (list.get(i).getNowPrice() * num);
 				psmt.setInt(1, beforeprice);
-				psmt.setInt(2, (int)nowprice);
-				psmt.setInt(3, (int)(beforeprice - nowprice));
+				psmt.setInt(2, nowprice);
+				psmt.setInt(3, nowprice - beforeprice);
 				psmt.setString(4, list.get(i).getStockName());
-				cnt = psmt.executeUpdate();
-				System.out.println(i+ "번째 바뀜?" + cnt);
+				System.out.println(list.get(i).getStockName());
+				psmt.executeUpdate();
+//				System.out.println(i+ "번째 바뀜?" + cnt);
 
 			}
 		} catch (SQLException e) {
@@ -81,7 +82,8 @@ public class StockDAO {
 		} finally {
 			getClose();
 		}
-		return Ulist;
+		num = 0;
+		return list;
 	}
 
 	public ArrayList<StockDTO> select() {
@@ -94,12 +96,13 @@ public class StockDAO {
 			while (rs.next()) {
 
 				// dto --> ArrayList
+				String stockname = rs.getString("stockname");
 				int beforeprice = rs.getInt("beforeprice");
 				int nowprice = rs.getInt("nowprice");
-				int moveprice = rs.getInt("moveprice");
-				StockDTO result = new StockDTO(beforeprice, nowprice, moveprice);
+				int moveprice = (rs.getInt("nowprice") - rs.getInt("beforeprice"));
+				StockDTO result = new StockDTO(stockname, beforeprice, nowprice, moveprice);
 				list.add(result);
-				
+
 				System.out.printf("%-10s\t%7d원\t%7d원\t%+7d원%n", rs.getString("stockname"), rs.getInt("beforeprice"),
 						rs.getInt("nowprice"), rs.getInt("moveprice"));
 			}

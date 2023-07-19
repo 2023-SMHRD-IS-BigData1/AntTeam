@@ -3,9 +3,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserStockDAO {
-
 	Connection conn = null;
 	PreparedStatement psmt = null;
 	ResultSet rs = null;
@@ -67,5 +67,45 @@ public class UserStockDAO {
 			getClose();
 		}
 	}
+	
+	 // 내 자산현황 출력
+//	   public ArrayList<UserStockDTO>  select(String id) {
+//	      getCon();
+//	      ArrayList<UserStockDTO> list = new ArrayList<UserStockDTO>();
+//	      try {
+//	         String sql = "select * from UserStock where id = ?";
+//	         psmt = conn.prepareStatement(sql);
+//	         psmt.setString(1, id);
+//	         rs = psmt.executeQuery();
+//	         
+//	         while(rs.next()) {
+//	            int num = 0;
+//	            String db_id = rs.getString(1);
+//	            String db_stockName = rs.getString(2);
+//	            int db_buyPrice = rs.getInt(3);
+//	            int db_stockNum = rs.getInt(4);
+//	            dto = new UserStockDTO(db_id, db_stockName, db_buyPrice, db_stockNum);
+//	            
+//	            list.add(dto);
+//	               }
+//	         System.out.println("====보유하고 계신 주식 목록====");
+//	         if(list.size()!=0) {
+//	            for(int i = 0; i<list.size(); i++) {
+//	               String _i = list.get(i).getId();
+//	               String stockName = list.get(i).getStockName();
+//	               int buyPrice = list.get(i).getBuyPrice();
+//	               int stockNum = list.get(i).getStockNum();
+//	               System.out.printf("%d.\t%s\t%s\t%d\t%d%n", i+1, _i, stockName, buyPrice, stockNum);
+//	            }
+//	         }else {
+//	            System.out.println("보유하고 있는 주식이 없습니다.");
+//	         }
+//	      }catch (SQLException e) {
+//	         e.printStackTrace();
+//	      }finally {
+//	         getClose();
+//	      }
+//	      return list;
+//	   }
 	
 }

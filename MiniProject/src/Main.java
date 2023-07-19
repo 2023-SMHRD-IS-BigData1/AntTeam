@@ -167,7 +167,7 @@ public class Main {
 								// 룰렛 - 미니게임
 								while(true){
 									System.out.println("====카지노 잭팟에 오신걸 환영합니다==== \n "
-											+ "잭팟을 터트리시면 베팅한 금액의 3배를 돌려드립니다^^ \n "
+											+ "잭팟을 터트리시면 베팅한 금액의 5배를 돌려드립니다^^ \n "
 											+ "반대로 잭팟을 터트리지 못하면 베팅한 금액을 모두 잃게됩니다.ㅠㅠ \n "
 											+ "도전하시겠습니까?");
 									System.out.print("[1] 도전하기 [2] 게임 나가기 >>");
@@ -184,8 +184,7 @@ public class Main {
 											System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
 										}
 										if(1==gcon.jackpot()) {
-											getGold = getGold-bettingGold;
-											getGold = getGold+bettingGold*4;
+											getGold = getGold+bettingGold*5;
 										}
 									}else if(menu==2) {
 										//게임종료

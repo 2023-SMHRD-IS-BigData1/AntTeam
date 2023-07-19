@@ -53,40 +53,36 @@ public class StockDAO {
 		}
 	}
 
-//	public void update(StockDTO dto) {
-//		getCon();
-//
-//		try {
-//			// while 문 안에서 배열 수만큼 반복하여 현재 가격을 기준으로
-//			// 현재가격을 이전가격에 담아주고 현재가격에 변동값을 준다
-//			// 변동가격은 지금가격에서 변동수치를 랜덤으로 잡아준다( 변동범위 설정 생각하기)
-//			// 들어간 변동값을 moveprice에 담아주고 변동한 가격을 현재가격에 다시 담아준다
-////			float num2 = rd.nextFloat(0.6f);
-////			(num2 + 0.7f);
-//			String sql = "select * from Stock";
-//			psmt = conn.prepareStatement(sql);
-//			rs = psmt.executeQuery();
-//			System.out.println("\t\t 가격이 변경되었습니다. \t\t");
-//			while (rs.next()) {
-//				String sql2 = "update nowprice from stock where stockname = ? and beforprice = ? and nowprice = ? and moveprice = ?";
-//				psmt = conn.prepareStatement(sql);
-//				num = (int) Math.random() * (1.3 - 0.7 + 1) + 0.7;
-//				beforeprice = dto.getNowPrice();
-//				nowprice = dto.getNowPrice() * num;
-//
-//				psmt.setString(1, dto.getStockName());
-//				psmt.setInt(2, beforeprice);
-//				psmt.setInt(3, (int) nowprice);
-//				psmt.setInt(4, beforeprice - (int) nowprice);
-//
-//				cnt = psmt.executeUpdate();
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			getClose();
-//		}
-//	}
+	public ArrayList<StockDTO> update(ArrayList<StockDTO> Ulist) {
+		getCon();
+		int cnt = 0;
+		try {
+			// while 문 안에서 배열 수만큼 반복하여 현재 가격을 기준으로
+			// 현재가격을 이전가격에 담아주고 현재가격에 변동값을 준다
+			// 변동가격은 지금가격에서 변동수치를 랜덤으로 잡아준다( 변동범위 설정 생각하기)
+			// 들어간 변동값을 moveprice에 담아주고 변동한 가격을 현재가격에 다시 담아준다
+			String sql2 = "update stock set beforeprice=?, nowprice = ?, moveprice = ? where stockname =?";
+				psmt = conn.prepareStatement(sql2);
+				num = (int) Math.random() * (1.3 - 0.7 + 1) + 0.7;
+				
+				for(int i = 0; i <list.size(); i++) {
+					beforeprice = list.get(i).getNowPrice();
+					nowprice = (int)(list.get(i).getNowPrice()*num);
+				psmt.setInt(1, beforeprice);
+				psmt.setInt(2, (int)nowprice);
+				psmt.setInt(3, (int)(beforeprice - nowprice));
+				psmt.setString(4, list.get(i).getStockName());
+				cnt = psmt.executeUpdate();
+				System.out.println(i+ "번째 바뀜?" + cnt);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
+		}
+		return Ulist;
+	}
 
 	public ArrayList<StockDTO> select() {
 		getCon();

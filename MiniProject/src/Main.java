@@ -19,6 +19,7 @@ public class Main {
 		UserStockDTO userstockdto = null;
 		UserStockDAO userstockdao = new UserStockDAO();
 		ArrayList<StockDTO> list = new ArrayList<StockDTO>();
+		ArrayList<StockDTO> Ulist = new ArrayList<StockDTO>();
 		String id = null;
 		String pw = null;
 		String userid = null;
@@ -75,9 +76,8 @@ public class Main {
 							userstockdao.select(userid);
 							// 주식 리스트 출력
 							System.out.printf("%-10s\t%7s\t%7s\t%7s%n%n", "주식이름", "이전가격", "현재가격", "변동가격");
-							list = stockdao.select();
-//							stockdto = new StockDTO(list);
-//							stockdao.update(stockdto);
+							Ulist = stockdao.select();
+							stockdao.update(Ulist);
 							// 메뉴 출력
 							System.out.printf("%n[1]판매 [2]구매 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
@@ -111,7 +111,7 @@ public class Main {
 									System.out.print("구매하실 수량을 입력해주세요 >> ");
 									int stocknum = sc.nextInt();
 									// 소지금이 충분한지 확인
-//									if(gold >= nowprice*stocknum) {
+//									if(getGold >= 선택한 주식의현재가격 *stocknum) {
 //										System.out.println("구매에 성공하였습니다.");
 //									}else {
 //										System.out.println("보유금액이 부족합니다.");
@@ -174,11 +174,8 @@ public class Main {
 									int menu = sc.nextInt();
 									
 									if(menu==1) {
-										// bgm
-												
 										//도전하기
 										System.out.println("보유 gold : "+getGold);
-//										System.out.print(     보유 gold 입력       );
 										System.out.print("베팅하실 금액을 입력해주세요 >>");
 										int bettingGold = sc.nextInt();
 										if(bettingGold<=getGold){

@@ -14,6 +14,7 @@ public class UserStockDAO {
 	int cnt = 0;
     UserStockDTO dto = null;
     ArrayList<UserStockDTO> list = new ArrayList<UserStockDTO>();
+    ArrayList<UserStockDTO> Searchlist = new ArrayList<UserStockDTO>();
 
 	// getCon : DB연결 권한 확인 메소드
 	public void getCon() {
@@ -74,6 +75,7 @@ public class UserStockDAO {
 	   public ArrayList<UserStockDTO>  select(String id) {
 	      getCon();
 	      try {
+	    	  list.removeAll(list);
 	         String sql = "select * from UserStock where id = ?";
 	         psmt = conn.prepareStatement(sql);
 	         psmt.setString(1, id);
@@ -108,5 +110,28 @@ public class UserStockDAO {
 	      }
 	      return list;
 	   }
+		public ArrayList<UserStockDTO> selectName(String stockname, String userid) {
+			getCon();
+			try {
+				String sql = "select * from UserStock where stockname = ? and id = ?";
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, stockname);
+				psmt.setString(2, userid);
+				rs = psmt.executeQuery();
+
+				while(rs.next()) {
+					String stname = rs.getString(3);
+					String stid = rs.getString(5);
+					dto = new UserStockDTO(stid, stname);
+					Searchlist.add(dto);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				getClose();
+			}
+			return Searchlist;
+		}
 	
 }

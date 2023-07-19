@@ -146,8 +146,22 @@ public class InfoDAO {
 		}finally {
 			getClose();
 		}
-		
 		return gold;
+	}
+	public void UpdateGold(String userid, int getgold) {
+		getCon();
+		try {
+			String sql = "update investor_info set gold = ? where id = ?";
+			psmt= conn.prepareStatement(sql);
+			psmt.setInt(1, getgold);
+			psmt.setString(2, userid);
+			psmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			getClose();
+		}
 		
 	}
 

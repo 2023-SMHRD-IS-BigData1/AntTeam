@@ -13,6 +13,11 @@ public class UserStockDTO {
 		this.stockNum = stockNum;
 	}
 	
+	public UserStockDTO(String id, String stockName) {
+		this.id = id;
+		this.stockName = stockName;
+	}
+	
 	public UserStockDTO(String stockName) {
 		this.stockName = stockName;
 	}

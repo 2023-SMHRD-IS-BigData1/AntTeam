@@ -30,9 +30,11 @@ public class InfoDTO {
 	}
 
 	public InfoDTO(String id, String pw) {
-		super();
 		this.id = id;
 		this.pw = pw;
+	}
+	public InfoDTO(int gold) {
+		this.gold = gold;
 	}
 	
 	public String getId() {

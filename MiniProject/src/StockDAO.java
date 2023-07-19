@@ -64,18 +64,14 @@ public class StockDAO {
 			for (int i = 0; i < list.size(); i++) {
 				String sql2 = "update stock set beforeprice=?, nowprice = ?, moveprice = ? where stockname =?";
 				psmt = conn.prepareStatement(sql2);
-				num = Math.round((Math.random() * (1.3 - 0.5 + 0.3) + 0.5) * 100) / 100.0;
-				System.out.println(num);
+				num = Math.round((Math.random() * (1.1 - 0.6 + 0.5) + 0.6) * 100) / 100.0;
 				beforeprice = list.get(i).getNowPrice();
 				nowprice = (int) (list.get(i).getNowPrice() * num);
 				psmt.setInt(1, beforeprice);
 				psmt.setInt(2, nowprice);
 				psmt.setInt(3, nowprice - beforeprice);
 				psmt.setString(4, list.get(i).getStockName());
-				System.out.println(list.get(i).getStockName());
 				psmt.executeUpdate();
-//				System.out.println(i+ "번째 바뀜?" + cnt);
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

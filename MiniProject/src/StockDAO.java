@@ -19,6 +19,7 @@ public class StockDAO {
 	int nowprice = 0;
 	int rn = 0;
 	ArrayList<StockDTO> list = new ArrayList<StockDTO>();
+	ArrayList<Integer> listU = new ArrayList<Integer>();
 
 	// getCon : DB연결 권한 확인 메소드
 	public void getCon() {
@@ -55,7 +56,7 @@ public class StockDAO {
 	}
 
 	
-	public ArrayList<StockDTO> update(ArrayList<StockDTO> list) {
+	public ArrayList<Integer> update(ArrayList<StockDTO> list) {
 		getCon();
 		int cnt = 0;
 		try {
@@ -74,6 +75,13 @@ public class StockDAO {
 				psmt.setInt(3, nowprice - beforeprice);
 				psmt.setString(4, list.get(i).getStockName());
 				psmt.executeUpdate();
+				
+				String sql3 = "select * from stock where stockname=?";
+				psmt = conn.prepareStatement(sql3);
+				psmt.setString(1, list.get(i).getStockName());
+				rs = psmt.executeQuery();
+				rs.next();
+				listU.add(rs.getInt(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +89,7 @@ public class StockDAO {
 			getClose();
 		}
 		num = 0;
-		return list;
+		return listU;
 	}
 
 	public ArrayList<StockDTO> select() {

@@ -88,8 +88,8 @@ public class Main {
 							System.out.printf("%n  보유자산 : %d%n%n" , getGold);
 							// 주식 리스트 출력
 							System.out.printf("%-10s\t%7s\t%7s\t%7s%n%n", "주식이름", "이전가격", "현재가격", "변동가격");
-							stockdao.update(list);
 							list = stockdao.select();
+							ArrayList<Integer>listU = stockdao.update(list);
 							// 메뉴 출력
 							System.out.printf("%n[1]판매 [2]구매 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
@@ -109,7 +109,7 @@ public class Main {
 									stocksell = sc.nextInt();
 									if (stockindex <= Searchlist.size()) {
 										if (stocksell <= Searchlist.get(stockindex).getStockNum()) {
-											getGold += list.get(stockindex+1).getNowPrice() * stocksell;
+											getGold += listU.get(stockindex+1) * stocksell;
 											infodao.UpdateGold(userid, getGold);
 											stocknum = Searchlist.get(stockindex).getStockNum();
 											stocknum -= stocksell;

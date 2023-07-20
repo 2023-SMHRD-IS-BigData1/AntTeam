@@ -43,7 +43,7 @@ public class Main {
 		if(bgm.isPlaying()) {
 			bgm.stop();
 		}
-		bgm.play(music.get(1).getPath());
+		bgm.play(music.get(2).getPath());
 		while (true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
@@ -186,10 +186,9 @@ public class Main {
 										System.out.println("====빈칸에 들어갈 단어를 맞춰보세요!====");
 
 										getGold+=gcon.Quiz(gold);
+										infodao.UpdateGold(userid, getGold);
 										System.out.println("보유골드 : " + getGold);
 									} else if (menu == 2) {
-										// 게임 종료
-										System.out.println("게임을 종료합니다.");
 										break;
 									} else {
 										System.out.println("잘못된 입력입니다. 다시 입력해 주세요.");
@@ -211,8 +210,10 @@ public class Main {
 										int bettingGold = sc.nextInt();
 										if (bettingGold <= getGold) {
 			                                 getGold -= bettingGold;
+			                                 infodao.UpdateGold(userid, getGold);
 			                                 if (1 == gcon.jackpot()) {
 			                                    getGold += bettingGold + bettingGold*5;
+			                                    infodao.UpdateGold(userid, getGold);
 			                                    System.out.println("축하합니다! +" + (bettingGold*5)+"gold를 얻었습니다!");
 			                                    System.out.println("총 보유 gold : " + getGold);
 			                                 }else {
@@ -222,8 +223,6 @@ public class Main {
 			                                 System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
 			                              }
 									} else if (menu == 2) {
-										// 게임종료
-										System.out.println("게임을 종료합니다.");
 										break;
 									} else {
 										System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");

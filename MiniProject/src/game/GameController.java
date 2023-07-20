@@ -11,11 +11,11 @@ public class GameController {
 	Random rn = new Random();
 	MP3Player mp3 = new MP3Player();
 
-	public  int Quiz() {
+	public  int Quiz(int gold) {
 		ArrayList<Game_QuizDTO> list = new ArrayList<Game_QuizDTO>();
 		Scanner sc = new Scanner(System.in);
 		int cnt = 0;
-		int gold = 0;
+		gold = 0;
 		Game_QuizDTO proveb1 = new Game_QuizDTO("낮말은 (_)가 듣고 밤말은 쥐가 듣는다", "새");
 		Game_QuizDTO proveb2 = new Game_QuizDTO("내가 말하려고 하는 것을 (_ _) 집에서 먼저 한다", "사돈");
 		Game_QuizDTO proveb3 = new Game_QuizDTO("말 (_ _ _)에 천냥 빚도 갚는다", "한마디");
@@ -68,10 +68,9 @@ public class GameController {
 						+ "");
 				System.out.println("정답을 맞추셨습니다.");
 				
-//				보유하고있는gold += 10000
-//				System.out.println("현재 보유하고 있는 gold : " + );
 				cnt++;
 				gold+=10000;
+				System.out.println("축하합니다! +10000gold를 얻었습니다!");
 				break;
 			}
 		}
@@ -146,8 +145,6 @@ public class GameController {
 					+ "");
 			mp3.play(".\\music\\coins-135571.mp3");
 			System.out.println("잭팟이 터졌습니다");
-//			System.out.println("얻게되는 gold : " + (bettingGold*3));
-//			보유하고 있는 gold += bettingGold*3;
 			cnt++;
 			
 		}else {

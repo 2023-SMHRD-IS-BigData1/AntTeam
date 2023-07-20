@@ -22,6 +22,7 @@ public class Main {
 		ArrayList<UserStockDTO> Searchlist = new ArrayList<UserStockDTO>();
 		int stockindex = 0;
 		int stocknum = 0;
+		int gold = 0;
 		String id = null;
 		String pw = null;
 		String userid = null;
@@ -37,6 +38,10 @@ public class Main {
 //		PrintMain.sleep(1000);
 //		PrintMain.print2();
 //			bgm.play(music.get(0).getPath());
+		if(bgm.isPlaying()) {
+			bgm.stop();
+		}
+		bgm.play(music.get(0).getPath());
 		while (true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
@@ -66,6 +71,7 @@ public class Main {
 				// 로그인 성공실패 코드작성
 
 				while (true) {
+					
 					userid = id;
 					int getGold = infodao.getGold(userid);
 					System.out.print("[1]주식거래 [2]미니게임 [3]종료 >> ");
@@ -141,6 +147,10 @@ public class Main {
 
 					} else if (menu2 == 2) {
 						// Mini Game //
+						if(bgm.isPlaying()) {
+							bgm.stop();
+						}
+						bgm.play(music.get(4).getPath());
 						while (true) {
 							System.out.print("[1]퀴즈 [2]룰렛 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
@@ -158,7 +168,7 @@ public class Main {
 										// 게임시작
 										System.out.println("====빈칸에 들어갈 단어를 맞춰보세요!====");
 
-										getGold += gcon.Quiz();
+										getGold+=gcon.Quiz(gold);
 										System.out.println("보유골드 : " + getGold);
 									} else if (menu == 2) {
 										// 게임 종료
@@ -188,7 +198,9 @@ public class Main {
 											System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
 										}
 										if (1 == gcon.jackpot()) {
-											getGold = getGold + bettingGold * 5;
+											getGold += bettingGold + bettingGold*5;
+											System.out.println("축하합니다! +" + (bettingGold*5)+"gold를 얻었습니다!");
+											System.out.println("총 보유 gold : " + getGold);
 										}
 									} else if (menu == 2) {
 										// 게임종료

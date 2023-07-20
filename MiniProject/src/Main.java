@@ -35,11 +35,11 @@ public class Main {
 		Game_QuizDTO gamedto = null;
 		ArrayList<MusicVO> music = new BackGround().Sound();
 
-//		PrintMain.print1();
-//			bgm.play(music.get(0).getPath());
-//		PrintMain.sleep(1000);
-//		PrintMain.print2();
-//			bgm.play(music.get(0).getPath());
+		PrintMain.print1();
+			bgm.play(music.get(0).getPath());
+		PrintMain.sleep(1000);
+		PrintMain.print2();
+			bgm.play(music.get(0).getPath());
 		if(bgm.isPlaying()) {
 			bgm.stop();
 		}
@@ -80,6 +80,7 @@ public class Main {
 					int menu2 = sc.nextInt();
 					if (menu2 == 1) {
 						// 주식거래
+						PrintMain.print3();
 						while (true) {
 							String input_stockname = null;
 							// 내 자산현황 출력
@@ -97,7 +98,6 @@ public class Main {
 								input_stockname = sc.next();
 								Searchlist = userstockdao.selectName(input_stockname, userid);
 								
-								//판매주식 입력시 리스트 사이즈만큼 출력은 되지만 구매가격및 보유수량이 출력XX
 								for (int i = 0; i < Searchlist.size(); i++) {
 									System.out.printf("%d. %s\t 구매가격 : %d\t %d주%n", i + 1,
 											Searchlist.get(i).getStockName(), Searchlist.get(i).getBuyPrice(), Searchlist.get(i).getStockNum());
@@ -173,6 +173,7 @@ public class Main {
 							int menu3 = sc.nextInt();
 							if (menu3 == 1) {
 								// 퀴즈게임 실행 - 미니게임
+								PrintMain.print4();
 								while (true) {
 									int cnt = 0;
 									System.out
@@ -196,6 +197,7 @@ public class Main {
 								}
 							} else if (menu3 == 2) {
 								// 룰렛 - 미니게임
+								PrintMain.print5();
 								while (true) {
 									System.out.println(
 											"====카지노 잭팟에 오신걸 환영합니다==== \n " + "잭팟을 터트리시면 베팅한 금액의 5배를 돌려드립니다^^ \n "
@@ -252,6 +254,7 @@ public class Main {
 				}
 			} else if (menu1 == 3) {
 				// 랭킹 페이지 출력 - 메인
+				PrintMain.print6();
 				ArrayList<InfoDTO> rank = new InfoDAO().viewRank();
 				System.out.println("             RANKING          ");
 				System.out.println("         주식왕 : " + rank.get(0).getNick());

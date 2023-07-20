@@ -90,13 +90,14 @@ public class UserStockDAO {
 
 				list.add(dto);
 			}
-			System.out.println("====보유하고 계신 주식 목록====");
+			System.out.printf("\t========보유하고 계신 주식 목록========%n%n");
 			if (list.size() != 0) {
 				for (int i = 0; i < list.size(); i++) {
 					String stockName = list.get(i).getStockName();
 					int buyPrice = list.get(i).getBuyPrice();
 					int stockNum = list.get(i).getStockNum();
-					System.out.printf("%d.%s\t 구매가격 : %d\t%d주%n", i + 1, stockName, buyPrice, stockNum);
+					System.out.printf("%d.%-10s\t 구매가격 : %7d\t%7d주%n", i + 1, stockName, buyPrice, stockNum);
+					//%-10s\t%7s\t%7s\t%7s%n%n
 				}
 			} else {
 				System.out.println("보유하고 있는 주식이 없습니다.");

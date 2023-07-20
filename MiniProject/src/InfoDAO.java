@@ -92,7 +92,7 @@ public class InfoDAO {
 		       
 		       if(rs.next()) {
 		    	   String db_nick = rs.getString(3);
-		    	   System.out.println(db_nick + "님 환영합니다^^");
+		    	   System.out.println("\t\t"+db_nick + "님 환영합니다^^");
 		       }else {
 		    	   System.out.println("아이디 또는 비밀번호가 잘못 되었습니다. 다시 로그인 해주세요.");
 		       }

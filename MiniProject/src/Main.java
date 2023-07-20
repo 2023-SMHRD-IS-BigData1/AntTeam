@@ -45,7 +45,7 @@ public class Main {
 		}
 		bgm.play(music.get(2).getPath());
 		while (true) {
-			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
+			System.out.print("\t[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
 			// 회원가입 - 메인
 

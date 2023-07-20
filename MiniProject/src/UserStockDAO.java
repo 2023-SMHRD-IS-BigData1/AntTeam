@@ -12,9 +12,9 @@ public class UserStockDAO {
 	PreparedStatement psmt2 = null;
 	ResultSet rs2 = null;
 	int cnt = 0;
-    UserStockDTO dto = null;
-    ArrayList<UserStockDTO> list = new ArrayList<UserStockDTO>();
-    ArrayList<UserStockDTO> Searchlist = new ArrayList<UserStockDTO>();
+	UserStockDTO dto = null;
+	ArrayList<UserStockDTO> list = new ArrayList<UserStockDTO>();
+	ArrayList<UserStockDTO> Searchlist = new ArrayList<UserStockDTO>();
 
 	// getCon : DB연결 권한 확인 메소드
 	public void getCon() {
@@ -70,68 +70,96 @@ public class UserStockDAO {
 //			getClose();
 //		}
 //	}
-	
-	 // 내 자산현황 출력
-	   public ArrayList<UserStockDTO>  select(String id) {
-	      getCon();
-	      try {
-	    	  list.removeAll(list);
-	         String sql = "select * from UserStock where id = ?";
-	         psmt = conn.prepareStatement(sql);
-	         psmt.setString(1, id);
-	         rs = psmt.executeQuery();
-	         
 
-	         while(rs.next()) {
-	            String nickName = rs.getString(2);
-	            String stockName = rs.getString(3);
-	            int buyPrice = rs.getInt(4);
-	            int stockNum = rs.getInt(5);
-	            dto = new UserStockDTO(nickName, stockName, buyPrice, stockNum);
-	            
-	            list.add(dto);
-	               }
-	         System.out.println("====보유하고 계신 주식 목록====");
-	         if(list.size()!=0) {
-	            for(int i = 0; i<list.size(); i++) {
-	               String _i = list.get(i).getId();
-	               String stockName = list.get(i).getStockName();
-	               int buyPrice = list.get(i).getBuyPrice();
-	               int stockNum = list.get(i).getStockNum();
-	               System.out.printf("%d.\t%s\t%s\t%d\t%d%n", i+1, _i, stockName, buyPrice, stockNum);
-	            }
-	         }else {
-	            System.out.println("보유하고 있는 주식이 없습니다.");
-	         }
-	      }catch (SQLException e) {
-	         e.printStackTrace();
-	      }finally {
-	         getClose();
-	      }
-	      return list;
-	   }
-		public ArrayList<UserStockDTO> selectName(String stockname, String userid) {
-			getCon();
-			try {
-				String sql = "select * from UserStock where stockname = ? and id = ?";
-				psmt = conn.prepareStatement(sql);
-				psmt.setString(1, stockname);
-				psmt.setString(2, userid);
-				rs = psmt.executeQuery();
+	// 내 자산현황 출력
+	public ArrayList<UserStockDTO> select(String id) {
+		getCon();
+		try {
+			list.removeAll(list);
+			String sql = "select * from UserStock where id = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
 
-				while(rs.next()) {
-					String stname = rs.getString(3);
-					String stid = rs.getString(5);
-					dto = new UserStockDTO(stid, stname);
-					Searchlist.add(dto);
-				}
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				getClose();
+			while (rs.next()) {
+				String nickName = rs.getString(2);
+				String stockName = rs.getString(3);
+				int buyPrice = rs.getInt(4);
+				int stockNum = rs.getInt(5);
+				dto = new UserStockDTO(nickName, stockName, buyPrice, stockNum);
+
+				list.add(dto);
 			}
-			return Searchlist;
+			System.out.println("====보유하고 계신 주식 목록====");
+			if (list.size() != 0) {
+				for (int i = 0; i < list.size(); i++) {
+					String _i = list.get(i).getId();
+					String stockName = list.get(i).getStockName();
+					int buyPrice = list.get(i).getBuyPrice();
+					int stockNum = list.get(i).getStockNum();
+					System.out.printf("%d.\t%s\t%s\t%d\t%d%n", i + 1, _i, stockName, buyPrice, stockNum);
+				}
+			} else {
+				System.out.println("보유하고 있는 주식이 없습니다.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
 		}
-	
+		return list;
+	}
+
+	public ArrayList<UserStockDTO> selectName(String stockname, String userid) {
+		getCon();
+		try {
+			String sql = "select * from UserStock where stockname = ? and id = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, stockname);
+			psmt.setString(2, userid);
+			rs = psmt.executeQuery();
+
+			while (rs.next()) {
+				String id = rs.getString(1);
+				String name = rs.getString(2);
+				String stname = rs.getString(3);
+				int buyprice = rs.getInt(4);
+				int stocknum = rs.getInt(5);
+				dto = new UserStockDTO(id, name, stname, buyprice, stocknum);
+				Searchlist.add(dto);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
+		}
+		return Searchlist;
+	}
+
+	public void updatestock(String userid, int stocknum, int price) {
+		getCon();
+		try {
+			String sql = "update userstock set stocknum = ? where id = ? and buyprice = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, stocknum);
+			psmt.setString(2, userid);
+			psmt.setInt(3, price);
+			psmt.executeUpdate();
+
+			if (stocknum == 0) {
+				String sql2 = "DELETE FROM USERSTOCK WHERE STOCKNUM = 0 AND BUYPRICE = ?";
+
+				psmt = conn.prepareStatement(sql2);
+				psmt.setInt(1, price);
+				psmt.executeUpdate();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			getClose();
+		}
+	}
+
 }

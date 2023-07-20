@@ -17,6 +17,7 @@ public class StockDAO {
 	double num = 0;
 	int beforeprice = 0;
 	int nowprice = 0;
+	int rn = 0;
 	ArrayList<StockDTO> list = new ArrayList<StockDTO>();
 
 	// getCon : DB연결 권한 확인 메소드
@@ -53,6 +54,7 @@ public class StockDAO {
 		}
 	}
 
+	
 	public ArrayList<StockDTO> update(ArrayList<StockDTO> list) {
 		getCon();
 		int cnt = 0;

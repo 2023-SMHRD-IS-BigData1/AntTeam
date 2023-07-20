@@ -108,7 +108,7 @@ public class InfoDAO {
 	public ArrayList<InfoDTO> viewRank() {
 		try {
 			getCon();
-			String sql ="select name ,gold from investor_info order by gold";
+			String sql ="select name ,gold from investor_info order by gold desc";
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			

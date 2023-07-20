@@ -22,6 +22,7 @@ public class Main {
 		ArrayList<UserStockDTO> Searchlist = new ArrayList<UserStockDTO>();
 		int stockindex = 0;
 		int stocknum = 0;
+		int stocksell = 0;
 		int gold = 0;
 		String id = null;
 		String pw = null;
@@ -102,13 +103,16 @@ public class Main {
 								System.out.print("판매할 주식 번호를 입력해주세요 >> ");
 								stockindex = sc.nextInt() - 1;
 								System.out.print("판매할 주식 수량을 입력해주세요 >> ");
-								stocknum = sc.nextInt();
+								stocksell = sc.nextInt();
 								while (true) {
 									if (stockindex <= Searchlist.size()) {
-										if (stocknum <= Searchlist.get(stockindex).getStockNum()) {
-											getGold += list.get(stockindex).getNowPrice() * stocknum;
+										if (stocksell <= Searchlist.get(stockindex).getStockNum()) {
+											getGold += list.get(stockindex).getNowPrice() * stocksell;
 											infodao.UpdateGold(userid, getGold);
-											System.out.println("주식판매 완료.");
+											stocknum = Searchlist.get(stockindex).getStockNum();
+											stocknum -= stocksell;
+											userstockdao.updatestock(userid, stocknum, Searchlist.get(stockindex).getBuyPrice());
+											System.out.printf("%n주식판매 완료.%n");
 											break;
 										} else {
 											System.out.println("수량을 다시 입력해주세요.");
@@ -125,9 +129,9 @@ public class Main {
 									System.out.print("구매하실 수량을 입력해주세요 >> ");
 									stocknum = sc.nextInt();
 									// 입력받은 문자열의 index값 가져오기
-									int index = list.indexOf(input_stockname);
+//									stockindex = list.indexOf(input_stockname);
 									// 소지금이 충분한지 확인
-									if(getGold >= list.get(index).getNowPrice() *stocknum) {
+									if(getGold >= list.get(stockindex).getNowPrice() *stocknum) {
 										System.out.println("구매에 성공하였습니다.");
 									}else {
 										System.out.println("보유금액이 부족합니다.");
@@ -150,7 +154,7 @@ public class Main {
 						if(bgm.isPlaying()) {
 							bgm.stop();
 						}
-						bgm.play(music.get(4).getPath());
+//						bgm.play(music.get(4).getPath());
 						while (true) {
 							System.out.print("[1]퀴즈 [2]룰렛 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
@@ -207,7 +211,7 @@ public class Main {
 										System.out.println("게임을 종료합니다.");
 										break;
 									} else {
-										System.out.println("잘 못 입력하셨습니다. 다시 입력해 주세요.");
+										System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
 									}
 								}
 

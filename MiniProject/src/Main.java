@@ -23,6 +23,7 @@ public class Main {
 		int stockindex = 0;
 		int stocknum = 0;
 		int stocksell = 0;
+		int stockbuy = 0;
 		int gold = 0;
 		String id = null;
 		String pw = null;
@@ -42,7 +43,7 @@ public class Main {
 		if(bgm.isPlaying()) {
 			bgm.stop();
 		}
-		bgm.play(music.get(0).getPath());
+		bgm.play(music.get(1).getPath());
 		while (true) {
 			System.out.print("[1]회원가입 [2]로그인 [3]랭킹 [4]종료 >> ");
 			int menu1 = sc.nextInt();
@@ -83,6 +84,7 @@ public class Main {
 							String input_stockname = null;
 							// 내 자산현황 출력
 							userstockdao.select(userid);
+							System.out.printf("%n  보유자산 : %d%n%n" , getGold);
 							// 주식 리스트 출력
 							System.out.printf("%-10s\t%7s\t%7s\t%7s%n%n", "주식이름", "이전가격", "현재가격", "변동가격");
 							stockdao.update(list);
@@ -100,14 +102,14 @@ public class Main {
 									System.out.printf("%d. %s\t 구매가격 : %d\t %d주%n", i + 1,
 											Searchlist.get(i).getStockName(), Searchlist.get(i).getBuyPrice(), Searchlist.get(i).getStockNum());
 								}
-								System.out.print("판매할 주식 번호를 입력해주세요 >> ");
-								stockindex = sc.nextInt() - 1;
-								System.out.print("판매할 주식 수량을 입력해주세요 >> ");
-								stocksell = sc.nextInt();
 								while (true) {
+									System.out.print("판매할 주식 번호를 입력해주세요 >> ");
+									stockindex = sc.nextInt() - 1;
+									System.out.print("판매할 주식 수량을 입력해주세요 >> ");
+									stocksell = sc.nextInt();
 									if (stockindex <= Searchlist.size()) {
 										if (stocksell <= Searchlist.get(stockindex).getStockNum()) {
-											getGold += list.get(stockindex).getNowPrice() * stocksell;
+											getGold += list.get(stockindex+1).getNowPrice() * stocksell;
 											infodao.UpdateGold(userid, getGold);
 											stocknum = Searchlist.get(stockindex).getStockNum();
 											stocknum -= stocksell;
@@ -116,6 +118,7 @@ public class Main {
 											break;
 										} else {
 											System.out.println("수량을 다시 입력해주세요.");
+											break;
 										}
 									} else {
 										System.out.println("번호를 다시 입력해주세요.");
@@ -127,12 +130,22 @@ public class Main {
 								Searchlist = userstockdao.selectName(input_stockname, userid);
 									stockdao.select(stockname);
 									System.out.print("구매하실 수량을 입력해주세요 >> ");
-									stocknum = sc.nextInt();
-									// 입력받은 문자열의 index값 가져오기
-//									stockindex = list.indexOf(input_stockname);
+									stockbuy = sc.nextInt();
+									//인덱스값을 가져오기
+									int index = 0;
+									for(int i = 0; i < list.size(); i++) {
+										if(list.get(i).getStockName().equals(input_stockname)) {
+											index = i;
+										}
+									}
 									// 소지금이 충분한지 확인
-									if(getGold >= list.get(stockindex).getNowPrice() *stocknum) {
+									if(getGold >= list.get(index).getNowPrice() *stockbuy) {
+										getGold -= list.get(index).getNowPrice() * stockbuy;
+										infodao.UpdateGold(userid, getGold);
+										stocknum = stockbuy;
+										userstockdao.insertstock(id, id, input_stockname, list.get(index).getNowPrice(), stocknum);
 										System.out.println("구매에 성공하였습니다.");
+										break;
 									}else {
 										System.out.println("보유금액이 부족합니다.");
 									}
@@ -154,7 +167,7 @@ public class Main {
 						if(bgm.isPlaying()) {
 							bgm.stop();
 						}
-//						bgm.play(music.get(4).getPath());
+						bgm.play(music.get(3).getPath());
 						while (true) {
 							System.out.print("[1]퀴즈 [2]룰렛 [3]뒤로가기 [4]종료 >> ");
 							int menu3 = sc.nextInt();
@@ -197,15 +210,17 @@ public class Main {
 										System.out.print("베팅하실 금액을 입력해주세요 >>");
 										int bettingGold = sc.nextInt();
 										if (bettingGold <= getGold) {
-											getGold = getGold - bettingGold;
-										} else {
-											System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
-										}
-										if (1 == gcon.jackpot()) {
-											getGold += bettingGold + bettingGold*5;
-											System.out.println("축하합니다! +" + (bettingGold*5)+"gold를 얻었습니다!");
-											System.out.println("총 보유 gold : " + getGold);
-										}
+			                                 getGold -= bettingGold;
+			                                 if (1 == gcon.jackpot()) {
+			                                    getGold += bettingGold + bettingGold*5;
+			                                    System.out.println("축하합니다! +" + (bettingGold*5)+"gold를 얻었습니다!");
+			                                    System.out.println("총 보유 gold : " + getGold);
+			                                 }else {
+			                                    System.out.println("총 보유 gold : " + getGold);
+			                                 }
+			                              } else {
+			                                 System.out.println("베팅에 사용할 gold가 보유하고 계신 gold보다 많습니다. 다시 입력해 주세요.");
+			                              }
 									} else if (menu == 2) {
 										// 게임종료
 										System.out.println("게임을 종료합니다.");

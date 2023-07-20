@@ -66,7 +66,7 @@ public class StockDAO {
 			for (int i = 0; i < list.size(); i++) {
 				String sql2 = "update stock set beforeprice=?, nowprice = ?, moveprice = ? where stockname =?";
 				psmt = conn.prepareStatement(sql2);
-				num = Math.round((Math.random() * (1.1 - 0.6 + 0.5) + 0.6) * 100) / 100.0;
+				num = Math.round((Math.random() * (1.1 - 0.6 + 0.3) + 0.6) * 100) / 100.0;
 				beforeprice = list.get(i).getNowPrice();
 				nowprice = (int) (list.get(i).getNowPrice() * num);
 				psmt.setInt(1, beforeprice);

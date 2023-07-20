@@ -93,11 +93,10 @@ public class UserStockDAO {
 			System.out.println("====보유하고 계신 주식 목록====");
 			if (list.size() != 0) {
 				for (int i = 0; i < list.size(); i++) {
-					String _i = list.get(i).getId();
 					String stockName = list.get(i).getStockName();
 					int buyPrice = list.get(i).getBuyPrice();
 					int stockNum = list.get(i).getStockNum();
-					System.out.printf("%d.\t%s\t%s\t%d\t%d%n", i + 1, _i, stockName, buyPrice, stockNum);
+					System.out.printf("%d.%s\t 구매가격 : %d\t%d주%n", i + 1, stockName, buyPrice, stockNum);
 				}
 			} else {
 				System.out.println("보유하고 있는 주식이 없습니다.");
@@ -159,7 +158,25 @@ public class UserStockDAO {
 			e.printStackTrace();
 		} finally {
 			getClose();
+			}
 		}
+		public void insertstock(String userid, String nick, String stockname, int buyprice, int stocknum) {
+			getCon();
+			try {
+				String sql = "insert into userstock (id, name, stockname, buyprice, stocknum) values(?,?,?,?,?)";
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, userid);
+				psmt.setString(2, nick);
+				psmt.setString(3, stockname);
+				psmt.setInt(4, buyprice);
+				psmt.setInt(5, stocknum);
+				psmt.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				getClose();
+			}
 	}
 
 }
